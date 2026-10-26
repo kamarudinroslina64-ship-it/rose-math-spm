@@ -20,6 +20,250 @@ select{width:100%;margin:5px 0 12px}.topic{padding:12px 0;border-top:1px solid v
 .q{padding:14px 0;border-bottom:1px solid var(--line)}.q p{font-weight:650}.opts{display:grid;gap:8px}.opts button{text-align:left}.opts button.chosen{outline:2px solid var(--rose)}.opts button.correct{border-color:var(--good);background:#153024}.opts button.wrong{border-color:var(--bad);background:#3a1b24}
 .explain{display:none;color:var(--muted);padding:10px;margin-top:8px;background:#151017;border-radius:8px}.explain.show{display:block}.score{font-size:22px;color:var(--rose);font-weight:700}
 footer{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+
+/* ROSE MATH visual refresh: black flower accents */
+:root{--bg:#0b080d;--panel:#19121d;--rose:#ff9fc5;--rose2:#d84f89;--text:#fff5fa;--muted:#cdb9c7;--line:#513246;--good:#91e8b5;--bad:#ff9eaa}
+body{background:radial-gradient(ellipse at top,#281323 0%,#100b13 45%,#09070b 100%);min-height:100vh}
+header{position:relative;overflow:hidden;padding:34px 18px 28px;background:linear-gradient(135deg,rgba(92,28,61,.92),rgba(20,12,24,.98));border-bottom:1px solid #70405a}
+header:before{content:"✿";position:absolute;left:8%;top:8px;font-size:38px;color:#050405;text-shadow:0 0 8px #000;opacity:.95}
+header:after{content:"❀";position:absolute;right:9%;bottom:18px;font-size:42px;color:#050405;text-shadow:0 0 8px #000;opacity:.95}
+h1{font-size:clamp(30px,8vw,44px);letter-spacing:3px;text-shadow:0 0 22px #d84f8966}
+header p{font-size:15px;max-width:320px;margin:9px auto 13px}
+nav{background:rgba(17,11,20,.94);backdrop-filter:blur(12px);border-bottom:1px solid #382333;padding:11px 12px;justify-content:center;box-shadow:0 8px 24px #0003}
+nav button{flex:1;max-width:180px;white-space:nowrap;border-radius:14px;font-weight:650;transition:transform .18s,background .18s}
+button,select{transition:transform .16s,border-color .16s,background .16s;box-shadow:0 3px 10px #0002}
+button:active{transform:scale(.97)}
+button.active,.primary{background:linear-gradient(135deg,#ee78aa,#b83e76);border-color:#f38db8;box-shadow:0 5px 18px #d84f8933}
+main{padding:18px 14px 30px}
+.card{background:linear-gradient(145deg,rgba(35,24,39,.97),rgba(21,15,24,.98));border:1px solid #563447;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 12px 28px #0003}
+.card h2{font-size:22px;letter-spacing:.2px}
+h2,h3{color:#ffa5ca}
+.pill{background:#48253a;color:#ffc0dc;border:1px solid #75405c;padding:5px 11px}
+select{background:#241725;border-color:#624057;border-radius:14px;padding:12px}
+.topic{padding:14px 0;border-color:#493041}
+.formula{background:linear-gradient(100deg,#100c14,#211321);border-left:4px solid #f18ab6;border-radius:5px 13px 13px 5px;padding:12px;color:#fff0f7}
+.q{padding:17px 0;border-color:#493041}
+.q p{line-height:1.55}
+.opts button{border-radius:13px;background:#241925;border-color:#4e3548;padding:12px 13px}
+.opts button:hover{border-color:#f08aad;background:#382033}
+.opts button.chosen{outline:2px solid #ff9fc5;background:#48243a}
+.explain{border:1px solid #4e3548;background:#120d16;line-height:1.6}
+.score{background:#2d1a2b;border:1px solid #71405b;border-radius:14px;padding:12px 14px;margin-top:14px}
+footer{padding:26px 18px 34px;color:#d5b9ca}
+@media(min-width:650px){main{padding-top:24px}.card{padding:24px}header{padding:42px 20px 32px}}
+
+</style>
+</head>
+<body>
+<header><h1>ROSE MATH</h1><p>Matematik Tingkatan 1–5 · Nota, formula & kuiz</p><span class="pill">Belajar sedikit demi sedikit 🖤🌹</span></header>
+<nav>
+<button class="active" onclick="tab('nota',this)">📚 Nota</button>
+<button onclick="tab('formula',this)">🧮 Formula</button>
+<button onclick="tab('kuiz',this)">📝 Kuiz</button>
+</nav>
+<main>
+<section id="nota" class="tab active">
+<div class="card"><h2>Nota mengikut tingkatan</h2><p class="muted">Pilih tingkatan. Ini nota ringkas untuk ulang kaji; semak juga buku teks dan format silibus sekolah.</p><select id="tingkatan" onchange="renderNotes()"><option value="1">Tingkatan 1</option><option value="2">Tingkatan 2</option><option value="3">Tingkatan 3</option><option value="4">Tingkatan 4</option><option value="5">Tingkatan 5</option></select><div id="notes"></div></div>
+</section>
+<section id="formula" class="tab">
+<div class="card"><h2>Formula penting</h2>
+<div class="topic"><h3>Nombor & peratus</h3><div class="formula">Peratus = (bahagian ÷ jumlah) × 100%</div><p>Contoh: 15 daripada 60 = 15 ÷ 60 × 100% = 25%.</p></div>
+<div class="topic"><h3>Laju, jarak dan masa</h3><div class="formula">Laju = Jarak ÷ Masa<br>Jarak = Laju × Masa<br>Masa = Jarak ÷ Laju</div></div>
+<div class="topic"><h3>Luas & isipadu</h3><div class="formula">Segi tiga: ½ × tapak × tinggi<br>Segi empat tepat: panjang × lebar<br>Bulatan: πr²<br>Prisma: luas keratan rentas × panjang</div></div>
+<div class="topic"><h3>Algebra</h3><div class="formula">Jika ax + b = c, maka x = (c − b) ÷ a</div><p>Kembangkan kurungan dengan mendarab setiap sebutan di dalam kurungan.</p></div>
+<div class="topic"><h3>Garis lurus</h3><div class="formula">y = mx + c<br>m = (y₂ − y₁) ÷ (x₂ − x₁)</div></div>
+<div class="topic"><h3>Kebarangkalian</h3><div class="formula">P(A) = bilangan hasil yang dikehendaki ÷ jumlah hasil sama mungkin</div><p>Nilai kebarangkalian berada antara 0 dengan 1.</p></div>
+<div class="topic"><h3>Statistik</h3><div class="formula">Min = jumlah semua data ÷ bilangan data<br>Julat = nilai maksimum − nilai minimum</div></div>
+<div class="topic"><h3>Trigonometri segi tiga bersudut tegak</h3><div class="formula">sin θ = bertentangan ÷ hipotenus<br>cos θ = bersebelahan ÷ hipotenus<br>tan θ = bertentangan ÷ bersebelahan</div></div>
+<div class="topic"><h3>Indeks & bentuk piawai</h3><div class="formula">aᵐ × aⁿ = aᵐ⁺ⁿ<br>aᵐ ÷ aⁿ = aᵐ⁻ⁿ<br>(aᵐ)ⁿ = aᵐⁿ<br>Bentuk piawai: A × 10ⁿ, dengan 1 ≤ A &lt; 10</div></div>
+<div class="topic"><h3>Persamaan kuadratik</h3><div class="formula">ax² + bx + c = 0<br>x = (−b ± √(b² − 4ac)) ÷ 2a</div></div>
+</div>
+</section>
+<section id="kuiz" class="tab">
+<div class="card"><h2>Kuiz Matematik F1–F5</h2><p class="muted">Pilih jawapan bagi setiap soalan, kemudian tekan Semak Markah untuk melihat penerangan.</p><label for="qfilter">Pilih tingkatan:</label><select id="qfilter" onchange="renderQuiz()"><option value="all">Semua tingkatan</option><option value="1">Tingkatan 1</option><option value="2">Tingkatan 2</option><option value="3">Tingkatan 3</option><option value="4">Tingkatan 4</option><option value="5">Tingkatan 5</option></select><div id="quizArea"></div><button class="primary" onclick="grade()">Semak Markah</button> <button onclick="renderQuiz()">Cuba Semula</button><div id="result"></div></div>
+</section>
+</main>
+<footer>ROSE MATH · Ulang kaji dengan tenang. Kesilapan ialah sebahagian daripada pembelajaran.</footer>
+<script>
+const notes={
+1:[["Nombor nisbah","Nombor nisbah boleh ditulis sebagai pecahan a/b, dengan b bukan sifar. Samakan penyebut sebelum menambah atau menolak pecahan."],["Faktor dan gandaan","Faktor membahagi nombor tanpa baki. Gandaan terhasil daripada mendarab nombor dengan nombor bulat."],["Kuasa dua, punca kuasa dua dan kuasa tiga","Contoh: 5² = 25 dan √25 = 5. Kuasa tiga: 2³ = 8."],["Ungkapan algebra","Gabungkan sebutan serupa sahaja. Contoh: 3x + 2x = 5x."],["Persamaan linear","Lakukan operasi yang sama pada kedua-dua belah persamaan untuk mencari pemboleh ubah."],["Perimeter dan luas","Perimeter ialah jumlah panjang sisi. Luas segi empat tepat = panjang × lebar."],["Peratus","Tukar peratus kepada pecahan per seratus atau perpuluhan untuk mengira."],["Data dan carta","Min = jumlah data ÷ bilangan data. Mod ialah nilai paling kerap muncul."]],
+2:[["Pola dan jujukan","Kenal pasti peraturan pola, contohnya tambah 3 setiap kali: 2, 5, 8, 11."],["Pemfaktoran","Cari faktor sepunya. Contoh: 6x + 9 = 3(2x + 3)."],["Paksi dan graf","Titik ditulis sebagai (x, y). Koordinat pertama ialah mengufuk, kedua menegak."],["Kecerunan","Kecerunan = perubahan y ÷ perubahan x."],["Bulatan","Lilitan = 2πr; luas bulatan = πr²."],["Teorem Pythagoras","Dalam segi tiga bersudut tegak, a² + b² = c² dengan c hipotenus."],["Kebarangkalian","Kebarangkalian = hasil dikehendaki ÷ jumlah hasil sama mungkin."],["Laju","Laju = jarak ÷ masa. Pastikan unit masa dan jarak sepadan."]],
+3:[["Indeks","Apabila mendarab kuasa dengan asas sama, tambah indeks: aᵐ × aⁿ = aᵐ⁺ⁿ."],["Bentuk piawai","Tulis nombor sebagai A × 10ⁿ dengan 1 ≤ A < 10."],["Matematik pengguna: simpanan","Faedah mudah = prinsipal × kadar × masa (kadar dalam bentuk perpuluhan). Semak jenis faedah dalam soalan."],["Garis lurus","Bentuk y = mx + c; m ialah kecerunan dan c pintasan-y."],["Transformasi","Translasi mengalih bentuk; pantulan mencerminkan; putaran memusing; pembesaran mengubah saiz."],["Trigonometri","sin = bertentangan/hipotenus, cos = bersebelahan/hipotenus, tan = bertentangan/bersebelahan."],["Statistik","Julat = maksimum − minimum. Median ialah nilai tengah selepas data disusun."],["Pelan dan dongakan","Kenal pasti pandangan hadapan, sisi dan atas serta skala yang digunakan."]],
+4:[["Fungsi dan graf","Fungsi memetakan input kepada output. Gantikan nilai x ke dalam rumus untuk mendapatkan f(x)."],["Persamaan kuadratik","Bentuk umum ax² + bx + c = 0. Selesaikan dengan pemfaktoran, melengkapkan kuasa dua atau rumus."],["Asas nombor","Nilai digit bergantung pada asas. Dalam asas 2, digit yang dibenarkan hanya 0 dan 1."],["Penaakulan logik","Pernyataan mempunyai nilai benar atau palsu. Gunakan contoh balas untuk menunjukkan pernyataan umum tidak benar."],["Operasi set","Kesatuan A ∪ B menggabungkan unsur; persilangan A ∩ B ialah unsur yang sama dalam kedua-dua set."],["Rangkaian dalam teori graf","Darjah bucu ialah bilangan sisi yang bersambung pada bucu itu."],["Kebarangkalian peristiwa bergabung","Gunakan rajah pokok atau jadual untuk menyusun kemungkinan dan mengelakkan tertinggal hasil."],["Sukatan serakan","Julat dan julat antara kuartil menunjukkan penyebaran data."]],
+5:[["Matriks","Tambah/tolak matriks dengan mengira unsur sepadan. Pendaraban matriks memerlukan bilangan lajur matriks pertama sama dengan bilangan baris matriks kedua."],["Matematik pengguna: insurans","Premium ialah bayaran perlindungan. Fahami nilai perlindungan, deduktibel dan lebihan seperti yang ditakrif dalam soalan."],["Matematik pengguna: percukaian","Pendapatan bercukai mengambil kira pelepasan yang dibenarkan. Gunakan kadar cukai dan julat dalam soalan."],["Transformasi","Gabungan transformasi dilakukan mengikut turutan yang diberi; catat pusat, sudut, arah atau faktor skala."],["Nombor indeks","Indeks = (nilai tahun tertentu ÷ nilai tahun asas) × 100."],["Graf gerakan","Kecerunan graf jarak-masa mewakili laju; kecerunan graf laju-masa mewakili pecutan."],["Kebarangkalian","P(A') = 1 − P(A), dengan A' ialah pelengkap peristiwa A."],["Pentafsiran data","Baca paksi, unit, skala dan tajuk graf sebelum membuat kesimpulan."]]
+};
+const questions=[
+[1,"Berapakah 3/4 + 1/4?",["1/2","1","2","3/8"],1,"Penyebut sama, jadi tambah pengangka: (3+1)/4 = 4/4 = 1."],
+[1,"Jika 5x = 20, nilai x ialah…",["2","4","5","15"],1,"Bahagikan kedua-dua belah dengan 5: x = 20 ÷ 5 = 4."],
+[1,"25% daripada 80 ialah…",["10","15","20","25"],2,"25% = 1/4. Maka 80 ÷ 4 = 20."],
+[1,"Luas segi empat tepat panjang 7 cm dan lebar 3 cm ialah…",["10 cm²","21 cm²","20 cm²","24 cm²"],1,"Luas = panjang × lebar = 7 × 3 = 21 cm²."],
+[1,"3a + 2a bersamaan…",["5","5a","6a","a⁵"],1,"3a dan 2a sebutan serupa; tambah pekali 3 + 2 = 5, jadi 5a."],
+[1,"Mod bagi 2, 4, 4, 7, 8 ialah…",["2","4","5","8"],1,"Mod ialah nilai yang paling kerap muncul. Nombor 4 muncul dua kali."],
+[1,"Nombor perdana antara berikut ialah…",["9","15","17","21"],2,"17 hanya mempunyai dua faktor positif: 1 dan 17."],
+[1,"Perimeter segi empat sama sisi 6 cm ialah…",["12 cm","18 cm","24 cm","36 cm"],2,"Empat sisi sama panjang: 4 × 6 = 24 cm."],
+[2,"Faktor sepunya terbesar bagi 12 dan 18 ialah…",["2","3","6","9"],2,"Faktor 12 termasuk 1,2,3,4,6,12; faktor 18 termasuk 1,2,3,6,9,18. Terbesar yang sama ialah 6."],
+[2,"Kembangkan 3(x + 4).",["3x+4","3x+12","x+12","7x"],1,"Darab 3 dengan setiap sebutan: 3×x + 3×4 = 3x + 12."],
+[2,"Kecerunan dari (1,2) ke (3,6) ialah…",["1","2","3","4"],1,"m = (6−2)/(3−1) = 4/2 = 2."],
+[2,"√144 ialah…",["10","11","12","14"],2,"12 × 12 = 144, jadi √144 = 12."],
+[2,"Lilitan bulatan berjari-jari r ialah…",["πr²","2πr","πd²","r²"],1,"Lilitan bulatan = 2πr atau πd."],
+[2,"Satu segi tiga bersudut tegak mempunyai sisi 3 dan 4 sebagai sisi tegak. Hipotenus ialah…",["5","6","7","12"],0,"Teorem Pythagoras: c² = 3² + 4² = 9 + 16 = 25, jadi c = 5."],
+[2,"Jika jarak 150 km ditempuh dalam 3 jam, lajunya…",["30 km/j","40 km/j","50 km/j","60 km/j"],2,"Laju = jarak ÷ masa = 150 ÷ 3 = 50 km/j."],
+[3,"2³ × 2² =",["2⁵","2⁶","4⁵","2"],0,"Untuk asas sama, tambah indeks: 3 + 2 = 5."],
+[3,"Bentuk piawai bagi 45000 ialah…",["45×10³","4.5×10⁴","0.45×10⁵","450×10²"],1,"A mesti antara 1 dan kurang daripada 10. 45000 = 4.5 × 10⁴."],
+[3,"Jika y = 2x + 1, y apabila x = 3 ialah…",["5","6","7","8"],2,"Gantikan x=3: y = 2(3)+1 = 7."],
+[3,"sin θ dalam segi tiga bersudut tegak ialah…",["bersebelahan/hipotenus","bertentangan/hipotenus","bertentangan/bersebelahan","hipotenus/bertentangan"],1,"SOH: sin = sisi bertentangan ÷ hipotenus."],
+[3,"Julat data 4, 9, 2, 11, 7 ialah…",["7","8","9","11"],1,"Julat = maksimum − minimum = 11 − 2 = 9."],
+[3,"Pantulan ialah transformasi yang…",["mengalih","memusing","mencerminkan","membesarkan"],2,"Pantulan menghasilkan imej cermin terhadap satu garis pantulan."],
+[3,"Indeks nombor 120 berbanding nilai asas 100 ialah…",["20","100","120","220"],2,"Indeks = (120 ÷ 100) × 100 = 120."],
+[3,"Kebarangkalian mendapat nombor genap apabila melontar dadu adil ialah…",["1/6","1/3","1/2","2/3"],2,"Hasil genap ialah 2, 4, 6: 3 daripada 6 hasil, jadi 3/6 = 1/2."],
+[4,"Dalam asas 2, digit yang digunakan ialah…",["0 dan 1","0 hingga 2","1 dan 2","0 hingga 9"],0,"Sistem nombor asas 2 hanya menggunakan digit 0 dan 1."],
+[4,"A ∩ B bermaksud…",["gabungan semua unsur","unsur sepunya","unsur di luar set","bilangan set"],1,"Persilangan A ∩ B ialah unsur yang terdapat dalam kedua-dua set."],
+[4,"Penyelesaian x² − 9 = 0 ialah…",["x=3 sahaja","x=−3 sahaja","x=±3","x=9"],2,"x²=9, maka x=3 atau x=−3 kerana kedua-duanya apabila dikuasa dua menjadi 9."],
+[4,"Jika y=−3x+2, kecerunan ialah…",["−3","−2","2","3"],0,"Dalam bentuk y=mx+c, pekali x ialah kecerunan m. Jadi m=−3."],
+[4,"Jika P(A)=0.35, P(bukan A) ialah…",["0.35","0.55","0.65","1.35"],2,"Kebarangkalian pelengkap = 1 − P(A) = 1 − 0.35 = 0.65."],
+[4,"Darjah bucu ialah…",["bilangan bucu graf","bilangan sisi yang bersambung pada bucu","jumlah panjang graf","bilangan graf"],1,"Darjah bucu mengira berapa banyak sisi yang bersambung pada bucu tersebut."],
+[4,"Bagi persamaan 2x+5=17, x ialah…",["5","6","7","11"],1,"Tolak 5: 2x=12. Bahagi 2: x=6."],
+[5,"Matriks 2×3 mempunyai…",["2 baris dan 3 lajur","3 baris dan 2 lajur","5 baris","6 lajur"],0,"Saiz matriks ditulis baris × lajur, jadi 2×3 bermaksud 2 baris, 3 lajur."],
+[5,"Indeks harga = (harga semasa ÷ harga asas) × 100. Jika harga semasa 15 dan harga asas 12, indeks ialah…",["80","100","120","125"],3,"(15 ÷ 12) × 100 = 125."],
+[5,"Jika y=4x−7, pintasan-y ialah…",["−7","−4","4","7"],0,"Dalam y=mx+c, pintasan-y ialah c. Di sini c=−7."],
+[5,"Luas bulatan berjari-jari 3 cm ialah…",["6π cm²","9π cm²","12π cm²","18π cm²"],1,"Luas = πr² = π(3²) = 9π cm²."],
+[5,"Faedah mudah bagi RM500 pada kadar 4% setahun selama 2 tahun ialah…",["RM20","RM40","RM100","RM540"],1,"Faedah = prinsipal × kadar × masa = 500 × 0.04 × 2 = RM40."],
+[5,"Jika P(A)=0.2, kebarangkalian pelengkap A ialah…",["0.2","0.5","0.8","1.2"],2,"P(A') = 1 − P(A) = 1 − 0.2 = 0.8."],
+[5,"Jika 2x²=18, nilai positif x ialah…",["3","6","9","±9"],0,"Bahagi 2: x²=9, maka x=±3. Nilai positif ialah 3."],
+[5,"Kecerunan graf laju-masa mewakili…",["jarak","laju","pecutan","masa"],2,"Perubahan laju per unit masa ialah pecutan."],
+[1,"0.6 sebagai pecahan termudah ialah…",["3/5","6/100","2/3","1/6"],0,"0.6 = 6/10. Bahagikan pengangka dan penyebut dengan 2: 3/5."],
+[2,"Jika 4x−3=13, x ialah…",["2","3","4","5"],2,"Tambah 3 pada kedua-dua belah: 4x=16. Bahagi 4: x=4."],
+[3,"Nilai tan θ ialah…",["bertentangan/hipotenus","bersebelahan/hipotenus","bertentangan/bersebelahan","hipotenus/bersebelahan"],2,"TOA: tan = sisi bertentangan ÷ sisi bersebelahan."],
+[4,"Pernyataan songsang bagi 'Jika hujan, jalan basah' ialah…",["Jika jalan basah, hujan","Jika tidak hujan, jalan tidak basah","Jika jalan tidak basah, tidak hujan","Jika hujan, jalan tidak basah"],0,"Songsang menukar kedudukan syarat dan kesimpulan: jika jalan basah, maka hujan."],
+[5,"Min bagi 4, 6, 8, 10 ialah…",["6","7","8","9"],1,"Jumlah 28 dibahagi 4 data: min = 7."],
+[1,"2.5 + 1.75 =",["3.25","4.25","4.5","5.25"],1,"Susun titik perpuluhan: 2.50 + 1.75 = 4.25."],
+[2,"Sudut pada garis lurus berjumlah…",["90°","180°","270°","360°"],1,"Sudut pada garis lurus berjumlah 180°."],
+[3,"Jika 5² = ?",["10","15","20","25"],3,"5² bermaksud 5 × 5 = 25."],
+[4,"Punca-punca x²−5x+6=0 ialah…",["1 dan 6","2 dan 3","−2 dan −3","−1 dan −6"],1,"Faktorkan: (x−2)(x−3)=0, maka x=2 atau x=3."],
+[5,"Jika faktor skala pembesaran 2, panjang 5 cm menjadi…",["2.5 cm","5 cm","7 cm","10 cm"],3,"Panjang imej = faktor skala × panjang objek = 2 × 5 = 10 cm."],
+[1,"Berapakah 7 × 8?",["54", "56", "64", "48"],1,"7 × 8 = 56."],
+[1,"Berapakah 3/5 daripada 20?",["8", "10", "12", "15"],2,"20 ÷ 5 × 3 = 12."],
+[1,"Tukarkan 0.25 kepada peratus.",["2.5%", "25%", "250%", "0.25%"],1,"0.25 × 100% = 25%."],
+[1,"Berapakah 90° − 35°?",["45°", "55°", "65°", "145°"],1,"90° − 35° = 55°."],
+[1,"Nombor bulat selepas −2 ialah…",["−3", "−1", "0", "2"],1,"Pada garis nombor, nombor selepas −2 ke arah positif ialah −1."],
+[1,"Berapakah 4²?",["8", "12", "16", "24"],2,"4² = 4 × 4 = 16."],
+[1,"Pecahan setara bagi 1/2 ialah…",["2/3", "2/4", "3/4", "1/4"],1,"1/2 didarab 2/2 menjadi 2/4."],
+[1,"Jika 12 gula-gula dibahagi sama rata kepada 3 orang, setiap orang mendapat…",["3", "4", "6", "9"],1,"12 ÷ 3 = 4."],
+[1,"Nilai 2x apabila x = 6 ialah…",["8", "10", "12", "14"],2,"2 × 6 = 12."],
+[1,"Sudut tegak ialah…",["45°", "90°", "180°", "360°"],1,"Sudut tegak berukuran 90°."],
+[1,"Berapakah 1.2 + 0.8?",["1", "1.8", "2", "2.8"],2,"1.2 + 0.8 = 2.0."],
+[1,"Perimeter segi tiga dengan sisi 3 cm, 4 cm dan 5 cm ialah…",["7 cm", "9 cm", "12 cm", "20 cm"],2,"Perimeter = 3 + 4 + 5 = 12 cm."],
+[2,"Selesaikan 2x + 4 = 18.",["5", "7", "9", "11"],1,"2x = 14, maka x = 7."],
+[2,"Faktorkan 4x + 8.",["4(x+2)", "2(x+8)", "4(x+8)", "8(x+4)"],0,"Faktor sepunya terbesar ialah 4: 4x + 8 = 4(x + 2)."],
+[2,"Berapakah 15% daripada 200?",["15", "20", "30", "40"],2,"0.15 × 200 = 30."],
+[2,"Satu sudut pada garis lurus 125°. Sudut bersebelahan ialah…",["45°", "55°", "65°", "125°"],1,"Jumlah sudut garis lurus 180°; 180° − 125° = 55°."],
+[2,"Jika y = 3x dan x = 4, y ialah…",["7", "12", "16", "34"],1,"y = 3 × 4 = 12."],
+[2,"Berapakah 2⁴?",["6", "8", "12", "16"],3,"2⁴ = 2 × 2 × 2 × 2 = 16."],
+[2,"Median bagi 3, 8, 5, 1, 7 ialah…",["3", "5", "7", "8"],1,"Susun data: 1, 3, 5, 7, 8. Nilai tengah ialah 5."],
+[2,"Sebuah barang RM40 naik harga 25%. Harga baharu ialah…",["RM45", "RM50", "RM55", "RM60"],1,"25% daripada RM40 ialah RM10; harga baharu RM50."],
+[2,"Nisbah 10:15 dalam bentuk termudah ialah…",["1:2", "2:3", "3:2", "5:3"],1,"Bahagi kedua-duanya dengan 5: 2:3."],
+[2,"Jika 5 buku berharga RM20, harga 1 buku ialah…",["RM2", "RM4", "RM5", "RM10"],1,"RM20 ÷ 5 = RM4."],
+[2,"Luas segi tiga dengan tapak 10 cm dan tinggi 6 cm ialah…",["16 cm²", "30 cm²", "60 cm²", "120 cm²"],1,"Luas = 1/2 × 10 × 6 = 30 cm²."],
+[3,"Berapakah 10³?",["30", "100", "1000", "10000"],2,"10³ = 10 × 10 × 10 = 1000."],
+[3,"Bentuk piawai 0.006 ialah…",["6 × 10⁻³", "6 × 10³", "0.6 × 10⁻²", "60 × 10⁻³"],0,"Pindahkan titik perpuluhan tiga tempat ke kanan, jadi kuasa ialah −3."],
+[3,"Jika f(x)=2x−3, f(5) ialah…",["5", "7", "10", "13"],1,"f(5)=2(5)−3=7."],
+[3,"cos θ ialah…",["bertentangan/hipotenus", "bersebelahan/hipotenus", "bertentangan/bersebelahan", "hipotenus/bersebelahan"],1,"CAH: cos = sisi bersebelahan ÷ hipotenus."],
+[3,"Peluang memilih huruf A daripada perkataan MATA secara rawak ialah…",["1/4", "1/2", "3/4", "1"],1,"Terdapat 2 huruf A daripada 4 huruf: 2/4 = 1/2."],
+[3,"Jika diameter bulatan 10 cm, jejari ialah…",["2 cm", "5 cm", "10 cm", "20 cm"],1,"Jejari ialah separuh diameter: 10 ÷ 2 = 5 cm."],
+[3,"Kecerunan garis mendatar ialah…",["−1", "0", "1", "Tidak tertakrif"],1,"Garis mendatar mempunyai perubahan y sifar, maka kecerunan 0."],
+[3,"Jika 3x = 2y dan x = 4, y ialah…",["4", "6", "8", "12"],1,"3(4)=2y, jadi 12=2y dan y=6."],
+[3,"Jumlah sudut dalam segi tiga ialah…",["90°", "180°", "270°", "360°"],1,"Jumlah sudut pedalaman setiap segi tiga ialah 180°."],
+[3,"Luas bulatan berjari-jari 2 cm ialah…",["2π cm²", "4π cm²", "8π cm²", "16π cm²"],1,"Luas = πr² = π(2²) = 4π cm²."],
+[3,"Jika 2⁵ ÷ 2², jawapan ialah…",["2²", "2³", "2⁷", "2¹⁰"],1,"Apabila membahagi asas sama, tolak indeks: 5 − 2 = 3."],
+[4,"Penyelesaian x²−4x=0 ialah…",["x=0 atau 4", "x=−4 sahaja", "x=2 sahaja", "x=4 sahaja"],0,"Faktorkan x(x−4)=0, maka x=0 atau x=4."],
+[4,"Jika 2x² + 3x + 1 = 0, pemfaktoran ialah…",["(2x+1)(x+1)", "(2x−1)(x−1)", "(x+3)(x+1)", "(2x+3)(x+1)"],0,"(2x+1)(x+1)=2x²+3x+1."],
+[4,"Jika set A={a,b,c}, bilangan unsur A ialah…",["1", "2", "3", "4"],2,"Set A mempunyai tiga unsur yang berbeza."],
+[4,"Dalam graf, sisi ialah…",["Titik", "Garis yang menghubungkan bucu", "Tajuk graf", "Paksi-x"],1,"Sisi menghubungkan dua bucu dalam graf."],
+[4,"Garis y=4x−2 mempunyai pintasan-y…",["−4", "−2", "2", "4"],1,"Dalam y=mx+c, pintasan-y ialah c=−2."],
+[4,"Jika P(A)=0.6, P(A') ialah…",["0.2", "0.4", "0.6", "1.6"],1,"P(A')=1−0.6=0.4."],
+[4,"Jika 3x−8=7, x ialah…",["3", "5", "7", "15"],1,"3x=15, jadi x=5."],
+[4,"Penyelesaian x²=0 ialah…",["x=0", "x=1", "x=−1", "x=±1"],0,"Satu-satunya nilai yang kuasa duanya 0 ialah x=0."],
+[4,"Jika A={1,3,5} dan B={2,3,4}, A∩B ialah…",["{1,2,3,4,5}", "{3}", "{1,5}", "{2,4}"],1,"Unsur yang terdapat dalam kedua-dua set ialah 3."],
+[4,"Jika garis sempadan ketaksamaan termasuk dalam rantau, garisnya…",["Putus-putus", "Penuh", "Melengkung", "Tidak dilukis"],1,"Bagi ≤ atau ≥, garis sempadan termasuk dan dilukis penuh."],
+[4,"Diskriminan bagi ax²+bx+c=0 ialah…",["b²−4ac", "b²+4ac", "2a+b", "a²−bc"],0,"Diskriminan ialah b²−4ac dan membantu menentukan bilangan punca nyata."],
+[4,"Jika m=0 dalam y=mx+c, grafnya…",["Menegak", "Mendatar", "Melengkung", "Sentiasa melalui asal"],1,"y=c ialah garis mendatar."],
+[5,"Jika matriks A mempunyai 2 baris dan 3 lajur, ordonya ialah…",["2×3", "3×2", "2+3", "6×1"],0,"Ordo matriks ditulis bilangan baris × bilangan lajur."],
+[5,"Indeks harga apabila harga semasa RM24 dan harga asas RM20 ialah…",["80", "100", "120", "140"],2,"Indeks = 24 ÷ 20 × 100 = 120."],
+[5,"Nilai 15% daripada RM800 ialah…",["RM80", "RM100", "RM120", "RM150"],2,"0.15 × 800 = RM120."],
+[5,"Jika 4x²=100, nilai positif x ialah…",["4", "5", "10", "25"],1,"x²=25, maka x=±5; nilai positif ialah 5."],
+[5,"Luas trapezium dengan sisi selari 4 cm dan 8 cm serta tinggi 5 cm ialah…",["20 cm²", "30 cm²", "40 cm²", "60 cm²"],1,"Luas = 1/2(4+8)×5 = 30 cm²."],
+[5,"Jika harga meningkat daripada RM50 kepada RM60, peratus kenaikan ialah…",["10%", "15%", "20%", "25%"],2,"Kenaikan RM10; 10 ÷ 50 × 100% = 20%."],
+[5,"Bagi y=−2x+6, pintasan-y ialah…",["−2", "2", "6", "−6"],2,"Pintasan-y ialah pemalar c, iaitu 6."],
+[5,"Faedah mudah RM1000 pada 5% setahun selama 3 tahun ialah…",["RM50", "RM100", "RM150", "RM1150"],2,"I = P × r × t = 1000 × 0.05 × 3 = RM150."],
+[5,"Jika P(A)=3/8, P(A') ialah…",["3/8", "5/8", "1/8", "1"],1,"P(A')=1−3/8=5/8."],
+[5,"Jejari bulatan 7 cm. Luasnya menggunakan π=22/7 ialah…",["44 cm²", "154 cm²", "308 cm²", "49 cm²"],1,"Luas = πr² = 22/7 × 7 × 7 = 154 cm²."],
+[5,"Jika 3x+2=20, x ialah…",["4", "5", "6", "8"],2,"3x=18, maka x=6."],
+[5,"Panjang imej 12 cm dengan faktor skala 3. Panjang objek ialah…",["3 cm", "4 cm", "9 cm", "36 cm"],1,"Panjang imej = faktor skala × objek; objek = 12 ÷ 3 = 4 cm."],
+[5,"Median bagi 2, 5, 9, 11, 14 ialah…",["5", "9", "11", "14"],1,"Data telah disusun; nilai tengah ialah 9."],
+[1,"Berapakah 0.6 + 0.25?",["0.31","0.75","0.85","0.95"],2,"Susun titik perpuluhan: 0.60 + 0.25 = 0.85."],
+[1,"Tukarkan 3/5 kepada peratus.",["30%","50%","60%","80%"],2,"3 ÷ 5 × 100% = 60%."],
+[1,"Nisbah 8:12 dalam bentuk termudah ialah…",["2:3","3:2","4:5","8:3"],0,"Bahagikan kedua-dua nombor dengan 4: 8:12 = 2:3."],
+[1,"Suhu turun daripada 7°C kepada −2°C. Perubahan suhu ialah…",["−5°C","−7°C","−9°C","9°C"],2,"Perubahan = −2 − 7 = −9°C, iaitu turun 9°C."],
+[1,"Isi padu kuboid berukuran 4 cm × 3 cm × 2 cm ialah…",["9 cm³","12 cm³","24 cm³","24 cm²"],2,"Isi padu = panjang × lebar × tinggi = 4 × 3 × 2 = 24 cm³."],
+[1,"Jika y = 2x + 1, cari y apabila x = 3.",["5","6","7","8"],2,"Gantikan x = 3: y = 2(3) + 1 = 7."],
+[2,"Selesaikan 2x + 5 = 17.",["5","6","11","12"],1,"Tolak 5: 2x = 12. Bahagi 2: x = 6."],
+[2,"Kembangkan (x + 3)(x + 2).",["x²+5x+6","x²+6x+5","x²+5","x²+6"],0,"Darab setiap sebutan: x² + 2x + 3x + 6 = x² + 5x + 6."],
+[2,"Min bagi 4, 6, 8, 10 ialah…",["6","7","8","9"],1,"Min = jumlah data ÷ bilangan data = 28 ÷ 4 = 7."],
+[2,"Sebuah sudut pada garis lurus ialah 125°. Sudut bersebelahan ialah…",["45°","55°","65°","125°"],1,"Jumlah sudut pada garis lurus ialah 180°. Maka 180° − 125° = 55°."],
+[2,"Kebarangkalian mendapat nombor genap apabila melontar dadu adil ialah…",["1/6","1/3","1/2","2/3"],2,"Nombor genap ialah 2, 4, 6: 3 daripada 6 hasil, jadi 3/6 = 1/2."],
+[2,"Jika 4 buku berharga RM18, harga 1 buku ialah…",["RM3.50","RM4.00","RM4.50","RM5.00"],2,"Harga seunit = RM18 ÷ 4 = RM4.50."],
+[3,"Permudahkan 2³ × 2⁴.",["2⁷","2¹²","4⁷","2¹"],0,"Apabila mendarab asas sama, tambah indeks: 3 + 4 = 7."],
+[3,"Selesaikan x² = 49.",["x = 7 sahaja","x = −7 sahaja","x = ±7","x = 49"],2,"Kedua-dua 7² dan (−7)² bersamaan 49, maka x = ±7."],
+[3,"Kecerunan garis y = −3x + 5 ialah…",["−3","3","5","−5"],0,"Dalam bentuk y = mx + c, kecerunan ialah pekali x, iaitu −3."],
+[3,"Indeks 120 menunjukkan nilai berbanding tahun asas…",["turun 20%","sama","naik 20%","naik 120%"],2,"Indeks 100 ialah nilai asas; 120 bermaksud 20% lebih tinggi daripada asas."],
+[3,"Diberi sin θ = 3/5 bagi sudut tirus. Nilai cos θ ialah…",["2/5","3/4","4/5","5/3"],2,"Segi tiga 3-4-5: sisi bersebelahan = 4 dan hipotenus = 5, jadi cos θ = 4/5."],
+[3,"Luas bulatan berjari-jari 7 cm ialah…",["14π cm²","28π cm²","49π cm²","7π cm²"],2,"Luas = πr² = π(7²) = 49π cm²."],
+[3,"Jika f(x) = 3x − 2, maka f(4) ialah…",["8","10","12","14"],1,"Gantikan x = 4: f(4) = 3(4) − 2 = 10."],
+[3,"Selesaikan 3(x − 2) = 15.",["3","5","7","9"],2,"Bahagi 3: x − 2 = 5. Tambah 2: x = 7."],
+[4,"Faktorkan x² − 9.",["(x−9)(x+1)","(x−3)(x+3)","(x−3)²","(x+9)(x−1)"],1,"Perbezaan dua kuasa dua: x² − 3² = (x − 3)(x + 3)."],
+[4,"Penyelesaian bagi x² − 5x + 6 = 0 ialah…",["2 dan 3","−2 dan −3","1 dan 6","−1 dan −6"],0,"Faktorkan (x − 2)(x − 3) = 0, jadi x = 2 atau x = 3."],
+[4,"Dalam set A = {1,2,3} dan B = {3,4,5}, A ∩ B ialah…",["{1,2,3,4,5}","{1,2}","{3}","{4,5}"],2,"Persilangan ialah unsur yang terdapat dalam kedua-dua set. Hanya 3."],
+[4,"Satu translasi ditulis sebagai (−2, 4). Titik (5,1) dipetakan kepada…",["(7,−3)","(3,5)","(−10,4)","(5,4)"],1,"Tambah vektor pada koordinat: (5−2, 1+4) = (3,5)."],
+[4,"Sebuah beg berharga RM80 diberi diskaun 15%. Harga selepas diskaun ialah…",["RM12","RM65","RM68","RM72"],2,"Diskaun = 0.15 × 80 = RM12. Harga akhir = 80 − 12 = RM68."],
+[4,"Median bagi 3, 7, 8, 10, 12, 15, 20 ialah…",["8","10","12","15"],1,"Terdapat 7 nilai tersusun; nilai ke-4 di tengah ialah 10."],
+[5,"Diberi matriks A = [[1,2],[3,4]] dan B = [[2,1],[0,3]]. Nilai unsur baris pertama lajur pertama bagi A+B ialah…",["1","2","3","4"],2,"Tambah unsur sepadan: 1 + 2 = 3."],
+[5,"Selesaikan serentak x + y = 9 dan x − y = 3.",["x=3, y=6","x=6, y=3","x=9, y=3","x=6, y=6"],1,"Tambah persamaan: 2x = 12, jadi x = 6. Maka y = 3."],
+[5,"Jika P(A) = 0.35, maka P(A') ialah…",["0.35","0.55","0.65","1.35"],2,"Kebarangkalian pelengkap = 1 − P(A) = 1 − 0.35 = 0.65."],
+[5,"Sebuah objek bergerak 120 m dalam 8 s. Laju purata ialah…",["12 m/s","15 m/s","20 m/s","960 m/s"],1,"Laju = jarak ÷ masa = 120 ÷ 8 = 15 m/s."],
+];
+function tab(id,btn){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');}
+function renderNotes(){let n=notes[document.getElementById('tingkatan').value];document.getElementById('notes').innerHTML=n.map((x,i)=>`<div class="topic"><h3>${i+1}. ${x[0]}</h3><p>${x[1]}</p></div>`).join('')}
+let chosen={};
+function renderQuiz(){chosen={};document.getElementById('result').innerHTML='';let f=document.getElementById('qfilter').value;let arr=questions.map((q,i)=>({...{q,i}})).filter(o=>f==='all'||String(o.q[0])===f);document.getElementById('quizArea').innerHTML=arr.map(({q,i},num)=>`<div class="q" id="q${i}"><p>${num+1}. <span class="pill">F${q[0]}</span> ${q[1]}</p><div class="opts">${q[2].map((a,j)=>`<button type="button" onclick="pick(${i},${j},this)">${String.fromCharCode(65+j)}. ${a}</button>`).join('')}</div><div class="explain" id="e${i}"></div></div>`).join('')}
+function pick(i,j,btn){chosen[i]=j;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('chosen'));btn.classList.add('chosen');}
+function grade(){let f=document.getElementById('qfilter').value;let arr=questions.map((q,i)=>({q,i})).filter(o=>f==='all'||String(o.q[0])===f);let score=0;arr.forEach(({q,i})=>{let box=document.querySelector(`#q${i} .opts`);if(!box)return;let buttons=box.querySelectorAll('button');buttons.forEach((b,j)=>{b.classList.remove('correct','wrong');if(j===q[4])b.classList.add('correct');if(chosen[i]===j&&j!==q[4])b.classList.add('wrong')});if(chosen[i]===q[4])score++;let exp=document.getElementById('e'+i);exp.classList.add('show');exp.innerHTML=`<strong>${chosen[i]===q[4]?'Betul!':'Jawapan: '+String.fromCharCode(65+q[4])}</strong><br>${q[5]}`});document.getElementById('result').innerHTML=`<p class="score">Markah: ${score}/${arr.length} (${Math.round(score/arr.length*100)}%)</p><p class="muted">Hijau = jawapan betul. Merah = pilihan salah. Baca penerangan setiap soalan untuk faham caranya.</p>`;document.getElementById('result').scrollIntoView({behavior:'smooth',block:'nearest'})}
+renderNotes();renderQuiz();
+</script>
+</body>
+</html>
+
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ROSE MATH F1–F5</title>
+<style>
+:root{--bg:#100d12;--panel:#1d1720;--rose:#f08aad;--rose2:#bd527a;--text:#fff2f7;--muted:#cbb8c3;--line:#49303d;--good:#8ee0b0;--bad:#ff9c9c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:25px 16px 20px;text-align:center;background:linear-gradient(145deg,#26131f,#100d12);border-bottom:1px solid var(--line)}
+h1{margin:0;color:var(--rose);letter-spacing:2px;font-size:clamp(25px,7vw,36px)}header p{margin:6px 0 0;color:var(--muted)}
+nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#151017;position:sticky;top:0;z-index:2}
+button,select{font:inherit;border:1px solid var(--line);border-radius:12px;padding:10px 13px;background:#2a1b26;color:var(--text)}
+button{cursor:pointer}button.active,.primary{background:var(--rose2);border-color:var(--rose2);color:white}
+main{max-width:900px;margin:auto;padding:16px}.tab{display:none}.tab.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}
+h2,h3{color:var(--rose)}h2{margin-top:0}.muted{color:var(--muted)}.pill{display:inline-block;padding:4px 9px;border-radius:20px;background:#38202e;color:var(--rose);font-size:13px;margin:3px}
+select{width:100%;margin:5px 0 12px}.topic{padding:12px 0;border-top:1px solid var(--line)}.topic:first-child{border-top:0}
+.formula{background:#120e14;border-left:3px solid var(--rose);padding:10px;border-radius:8px;overflow-wrap:anywhere}
+.q{padding:14px 0;border-bottom:1px solid var(--line)}.q p{font-weight:650}.opts{display:grid;gap:8px}.opts button{text-align:left}.opts button.chosen{outline:2px solid var(--rose)}.opts button.correct{border-color:var(--good);background:#153024}.opts button.wrong{border-color:var(--bad);background:#3a1b24}
+.explain{display:none;color:var(--muted);padding:10px;margin-top:8px;background:#151017;border-radius:8px}.explain.show{display:block}.score{font-size:22px;color:var(--rose);font-weight:700}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>

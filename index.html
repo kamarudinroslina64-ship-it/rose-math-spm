@@ -1,1 +1,110 @@
 
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>BLACKROSE MATH SPM</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090909;color:#f5f5f5;font-family:Arial,sans-serif}
+header{padding:28px 18px;background:#171117;border-bottom:2px solid #b54b83;text-align:center}
+h1{color:#f09acb;font-size:25px}
+header p{color:#ccc}
+main{padding:16px;max-width:700px;margin:auto}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+button{background:#292029;color:white;border:1px solid #b54b83;padding:12px;border-radius:9px;cursor:pointer}
+nav button{flex:1}
+button:active{background:#713658}
+.card{background:#171717;border:1px solid #383038;border-radius:12px;padding:16px;margin:14px 0}
+h2{color:#f09acb}
+h3{color:#e7a6d0}
+select{background:#222;color:white;padding:10px;border-radius:8px;width:100%}
+.answer{display:block;width:100%;margin:8px 0;text-align:left}
+footer{text-align:center;color:#aaa;padding:24px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>🌹 BLACKROSE MATH SPM</h1>
+<p>Matematik KSSM Tingkatan 4 & 5</p>
+<p>Belajar • Faham • Berjaya</p>
+</header>
+<main>
+<nav>
+<button onclick="show('home')">Utama</button>
+<button onclick="show('notes')">Nota</button>
+<button onclick="show('quiz')">Kuiz</button>
+</nav>
+<section id="content"></section>
+</main>
+<footer>Dicipta oleh Roslina Kamarudin<br>BLACKROSE MATH SPM © 2026</footer>
+<script>
+const topics=[
+["Tingkatan 4","Fungsi dan Persamaan Kuadratik","Graf Fungsi","Matematik Pengguna: Percukaian","Operasi Set","Rangkaian dalam Teori Graf","Ketaksamaan Linear","Graf Gerakan","Sukatan Serakan Data Tak Terkumpul","Kebarangkalian Peristiwa Bergabung","Matematik Pengguna: Pengurusan Kewangan"],
+["Tingkatan 5","Ubahan","Matriks","Matematik Pengguna: Insurans","Matematik Pengguna: Percukaian","Kekongruenan, Pembesaran dan Gabungan Transformasi","Nisbah dan Graf Fungsi Trigonometri","Sukatan Serakan Data Terkumpul","Pemodelan Matematik"]
+];
+const notes={
+"Fungsi dan Persamaan Kuadratik":"Bentuk umum: y = ax² + bx + c. Graf fungsi kuadratik berbentuk parabola.",
+"Graf Fungsi":"Paksi mengufuk ialah paksi-x. Paksi mencancang ialah paksi-y.",
+"Matematik Pengguna: Percukaian":"Pendapatan bercukai = pendapatan tahunan − pelepasan cukai yang dibenarkan.",
+"Operasi Set":"Kesatuan, A ∪ B: unsur dalam A atau B. Persilangan, A ∩ B: unsur yang sama dalam A dan B.",
+"Rangkaian dalam Teori Graf":"Bucu mewakili titik dan tepi mewakili sambungan antara titik.",
+"Ketaksamaan Linear":"Simbol: < lebih kecil, > lebih besar, ≤ lebih kecil atau sama, ≥ lebih besar atau sama.",
+"Graf Gerakan":"Laju = jarak ÷ masa. Pecutan = perubahan halaju ÷ masa.",
+"Sukatan Serakan Data Tak Terkumpul":"Julat = nilai maksimum − nilai minimum.",
+"Kebarangkalian Peristiwa Bergabung":"Bagi peristiwa saling eksklusif: P(A atau B) = P(A) + P(B).",
+"Matematik Pengguna: Pengurusan Kewangan":"Aliran tunai = jumlah wang masuk − jumlah wang keluar.",
+"Ubahan":"Ubahan langsung: y = kx. Ubahan songsang: y = k/x.",
+"Matriks":"Penambahan matriks memerlukan tertib matriks yang sama. Pendaraban matriks perlu ikut tertib yang sesuai.",
+"Matematik Pengguna: Insurans":"Premium ialah bayaran untuk perlindungan insurans. Fahami jumlah perlindungan dan deduktibel.",
+"Kekongruenan, Pembesaran dan Gabungan Transformasi":"Kongruen bermaksud bentuk dan saiz sama. Pembesaran mengubah saiz mengikut faktor skala.",
+"Nisbah dan Graf Fungsi Trigonometri":"sin θ = depan/hipotenus, cos θ = bersebelahan/hipotenus, tan θ = depan/bersebelahan.",
+"Sukatan Serakan Data Terkumpul":"Julat antara kuartil = Q3 − Q1.",
+"Pemodelan Matematik":"Kenal pasti masalah, bina model matematik, selesaikan dan tafsir jawapan."
+};
+function show(page){
+const c=document.getElementById('content');
+if(page==='home'){
+c.innerHTML='<div class="card"><h2>Selamat datang 🌹</h2><p>Selamat datang ke pusat ulang kaji Matematik SPM!</p><p>Pilih nota atau kuiz untuk mula belajar.</p><p><b>Matematik sahaja — bukan Matematik Tambahan.</b></p></div><div class="card"><h3>Pilih Tingkatan</h3><select id="level" onchange="listTopics()"><option>Tingkatan 4</option><option>Tingkatan 5</option></select><div id="topiclist"></div></div>';
+listTopics();
+}
+if(page==='notes'){
+let html='<div class="card"><h2>📚 Nota Matematik</h2>';
+topics.flatMap(x=>x.slice(1)).forEach(t=>{html+='<h3>'+t+'</h3><p>'+(notes[t]||'Ulang kaji konsep, formula dan contoh soalan topik ini.')+'</p>'});
+c.innerHTML=html+'</div>';
+}
+if(page==='quiz'){
+c.innerHTML='<div class="card"><h2>📝 Kuiz Matematik</h2><p id="question"></p><div id="answers"></div><p id="result"></p><button onclick="nextQ()">Soalan seterusnya</button></div>';
+nextQ();
+}
+}
+function listTopics(){
+const l=document.getElementById('level');
+const out=document.getElementById('topiclist');
+if(!l||!out)return;
+out.innerHTML=topics[l.selectedIndex].slice(1).map(t=>'<div class="card"><h3>'+t+'</h3><p>'+(notes[t]||'Ulang kaji topik ini.')+'</p></div>').join('');
+}
+const questions=[
+{q:'Berapakah 25% daripada 200?',a:['25','40','50','75'],correct:2},
+{q:'Jika y = 3x dan x = 4, berapakah y?',a:['7','12','16','1'],correct:1},
+{q:'Berapakah julat bagi data 2, 5, 8, 10?',a:['5','6','8','10'],correct:2},
+{q:'sin θ ialah nisbah...',a:['bersebelahan/hipotenus','depan/hipotenus','depan/bersebelahan','hipotenus/depan'],correct:1},
+{q:'Apakah simbol bagi persilangan set?',a:['∪','∩','∈','⊂'],correct:1}
+];
+let qi=0;
+function nextQ(){
+const q=questions[qi%questions.length];qi++;
+document.getElementById('question').textContent=q.q;
+document.getElementById('result').textContent='';
+document.getElementById('answers').innerHTML=q.a.map((a,i)=>'<button class="answer" onclick="check('+i+','+q.correct+')">'+a+'</button>').join('');
+}
+function check(i,correct){
+document.getElementById('result').textContent=i===correct?'Betul! Bagus 🌹':'Belum tepat. Cuba fahami konsep dan cuba lagi.';
+}
+show('home');
+</script>
+</body>
+</html>
